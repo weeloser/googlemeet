@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Настройка DNS | Тульская Шахматная Гостиная</title>
+    <link rel="icon" type="image/png" href="https://chess71.ru/d/tcg_basic_1.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,27 +40,32 @@
             transform: translateY(-6px) scale(1.05);
             box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.15);
         }
-        .tutorial-step, .card-content-item {
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: fadeInStep 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        .selection-button:active {
+            transform: translateY(-2px) scale(1);
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
         }
-        @keyframes fadeInStep {
+        .content-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .tutorial-steps li {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .tutorial-steps li:hover {
+            transform: translateX(5px);
+            color: #2563eb; 
+        }
+        @keyframes fadeInUp {
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
         .header-item {
              opacity: 0;
              transform: translateY(-20px);
-             animation: fadeInHeader 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-         @keyframes fadeInHeader {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+             animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
     </style>
 </head>
@@ -81,23 +87,21 @@
         <main class="space-y-6">
 
             <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-gray-200 animated-card">
-                <h2 class="text-2xl font-bold mb-3 text-blue-600 card-content-item">Зачем это нужно?</h2>
-                <p class="text-gray-700 leading-relaxed card-content-item" style="animation-delay: 150ms;">
+                <h2 class="text-2xl font-bold mb-3 text-blue-600 content-item">Зачем это нужно?</h2>
+                <p class="text-gray-700 leading-relaxed content-item" style="animation-delay: 150ms;">
                    Основная цель этой настройки — обеспечить стабильное и безопасное соединение, чтобы максимально круто проводить онлайн-занятия в <a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline font-semibold">Google Meet</a>.
                 </p>
             </div>
 
-            <!-- Wizard Container -->
             <div id="wizard-container" class="relative">
-                <!-- Step 1: OS Selection -->
                 <div id="os-selection" class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl text-center animated-card">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6 card-content-item">1. Выберите вашу систему</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 content-item">1. Выберите вашу систему</h3>
                     <div class="flex flex-col sm:flex-row justify-center items-center gap-8">
-                        <button data-target="windows-step" class="selection-button w-full sm:w-auto bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold py-4 px-6 rounded-xl card-content-item" style="animation-delay: 100ms;">
+                        <button data-hash="windows" class="selection-button w-full sm:w-auto bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold py-4 px-6 rounded-xl content-item" style="animation-delay: 100ms;">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor"><path d="M3,12V3H12V12H3ZM3,21V13H12V21H3ZM13,12V3H21V12H13ZM13,21V13H21V21H13Z"/></svg>
                             Windows
                         </button>
-                        <button data-target="android-tutorial" class="selection-button w-full sm:w-auto bg-gradient-to-br from-green-500 to-green-600 text-white font-bold py-4 px-6 rounded-xl card-content-item" style="animation-delay: 200ms;">
+                        <button data-hash="android" class="selection-button w-full sm:w-auto bg-gradient-to-br from-green-500 to-green-600 text-white font-bold py-4 px-6 rounded-xl content-item" style="animation-delay: 200ms;">
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor"><path d="M16,18H8V16H16M16.5,14.5H7.5V11.5H16.5M15,9H9V7H15M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1Z" /></svg>
                             Android
                         </button>
@@ -105,47 +109,47 @@
                 </div>
                 
                 <div id="windows-step" class="animated-card is-hidden bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl text-center">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6 card-content-item">2. Выберите ваш браузер</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 content-item">2. Выберите ваш браузер</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <button data-target="yandex-tutorial" class="selection-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg card-content-item" style="animation-delay: 100ms;">Яндекс.Браузер</button>
-                        <button data-target="chrome-tutorial" class="selection-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg card-content-item" style="animation-delay: 200ms;">Google Chrome</button>
-                        <button data-target="opera-tutorial" class="selection-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg card-content-item" style="animation-delay: 300ms;">Opera</button>
+                        <button data-hash="windows/yandex-browser" class="selection-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg content-item" style="animation-delay: 100ms;">Яндекс.Браузер</button>
+                        <button data-hash="windows/chrome" class="selection-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg content-item" style="animation-delay: 200ms;">Google Chrome</button>
+                        <button data-hash="windows/opera" class="selection-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg content-item" style="animation-delay: 300ms;">Opera</button>
                     </div>
-                    <button class="back-button mt-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-target="os-selection">Назад</button>
+                    <button class="back-button mt-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-hash="">Назад</button>
                 </div>
 
-                <div id="yandex-tutorial" class="tutorial-content animated-card is-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border p-6">
-                    <h3 class="text-xl font-bold mb-4 card-content-item">Инструкция для Яндекс.Браузера</h3>
+                <div id="yandex-browser-tutorial" class="tutorial-content animated-card is-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border p-6">
+                    <h3 class="text-xl font-bold mb-4 content-item">Инструкция для Яндекс.Браузера</h3>
                     <ol class="list-decimal list-inside space-y-4 text-gray-700 tutorial-steps"></ol>
                     <div class="mt-6 flex flex-wrap gap-4">
-                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-target="windows-step">Назад</button>
+                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-hash="windows">Назад</button>
                         <button class="help-button bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition-colors" data-platform="windows">Не работает?</button>
                     </div>
                 </div>
 
                 <div id="chrome-tutorial" class="tutorial-content animated-card is-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border p-6">
-                    <h3 class="text-xl font-bold mb-4 card-content-item">Инструкция для Google Chrome</h3>
+                    <h3 class="text-xl font-bold mb-4 content-item">Инструкция для Google Chrome</h3>
                     <ol class="list-decimal list-inside space-y-4 text-gray-700 tutorial-steps"></ol>
                      <div class="mt-6 flex flex-wrap gap-4">
-                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-target="windows-step">Назад</button>
+                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-hash="windows">Назад</button>
                         <button class="help-button bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition-colors" data-platform="windows">Не работает?</button>
                     </div>
                 </div>
                 
                 <div id="opera-tutorial" class="tutorial-content animated-card is-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border p-6">
-                    <h3 class="text-xl font-bold mb-4 card-content-item">Инструкция для Opera</h3>
+                    <h3 class="text-xl font-bold mb-4 content-item">Инструкция для Opera</h3>
                     <ol class="list-decimal list-inside space-y-4 text-gray-700 tutorial-steps"></ol>
                      <div class="mt-6 flex flex-wrap gap-4">
-                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-target="windows-step">Назад</button>
+                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-hash="windows">Назад</button>
                         <button class="help-button bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition-colors" data-platform="windows">Не работает?</button>
                     </div>
                 </div>
                 
                 <div id="android-tutorial" class="tutorial-content animated-card is-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border p-6">
-                    <h3 class="text-xl font-bold mb-4 card-content-item">Инструкция для Android</h3>
+                    <h3 class="text-xl font-bold mb-4 content-item">Инструкция для Android</h3>
                     <ol class="list-decimal list-inside space-y-4 text-gray-700 tutorial-steps"></ol>
                     <div class="mt-6 flex flex-wrap gap-4">
-                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-target="os-selection">Назад</button>
+                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-hash="">Назад</button>
                         <button class="help-button bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition-colors" data-platform="android">Не работает?</button>
                     </div>
                 </div>
@@ -183,7 +187,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const wizardScreens = [
-                'os-selection', 'windows-step', 'yandex-tutorial', 'chrome-tutorial', 
+                'os-selection', 'windows-step', 'yandex-browser-tutorial', 'chrome-tutorial', 
                 'opera-tutorial', 'android-tutorial'
             ];
             const vpnCards = {
@@ -192,7 +196,7 @@
             };
 
             const instructions = {
-                'yandex-tutorial': [
+                'yandex-browser-tutorial': [
                     'На любом <strong>пустом месте</strong> главной страницы нажмите правой кнопкой мыши и выберите <strong>"Все настройки"</strong>.',
                     'В меню слева или вверху перейдите во вкладку <strong>"БЕЗОПАСНОСТЬ"</strong>.',
                     'Пролистайте вниз до раздела <strong>"Защита соединения"</strong>.',
@@ -228,10 +232,10 @@
             };
             
             const animateContent = (screen) => {
-                const items = screen.querySelectorAll('.card-content-item, .tutorial-step');
+                const items = screen.querySelectorAll('.content-item');
                 items.forEach((item, index) => {
                     item.style.animationDelay = `${index * 100}ms`;
-                    item.style.animationName = 'fadeInStep';
+                    item.style.animationName = 'fadeInUp';
                 });
             };
 
@@ -239,28 +243,47 @@
                 const tutorialSteps = instructions[screenId];
                 if (!tutorialSteps) return;
                 const container = document.querySelector(`#${screenId} .tutorial-steps`);
-                container.innerHTML = tutorialSteps.map(step => `<li class="tutorial-step">${step}</li>`).join('');
+                container.innerHTML = tutorialSteps.map((step, index) => `<li class="content-item" style="animation-delay: ${index * 100}ms">${step}</li>`).join('');
             };
 
-            const navigateTo = (screenId) => {
-                wizardScreens.forEach(id => {
-                    const screen = document.getElementById(id);
-                    if (id === screenId) {
-                        screen.classList.remove('is-hidden');
-                        if (screen.classList.contains('tutorial-content')) {
-                           populateInstructions(id);
-                        }
-                        // Trigger animations for the new screen
-                        setTimeout(() => animateContent(screen), 50);
-                    } else {
-                        screen.classList.add('is-hidden');
-                    }
-                });
+            const handleRouteChange = () => {
+                const hash = window.location.hash.slice(1);
+                const pathParts = hash.split('/');
+                
+                wizardScreens.forEach(id => document.getElementById(id)?.classList.add('is-hidden'));
                 Object.values(vpnCards).forEach(card => card.classList.add('is-hidden'));
+
+                let screenIdToShow = '';
+
+                if (pathParts[0] === 'windows') {
+                    if (pathParts[1]) {
+                        screenIdToShow = `${pathParts[1]}-tutorial`;
+                    } else {
+                        screenIdToShow = 'windows-step';
+                    }
+                } else if (pathParts[0] === 'android') {
+                    screenIdToShow = 'android-tutorial';
+                } else {
+                    screenIdToShow = 'os-selection';
+                }
+
+                const screenToShow = document.getElementById(screenIdToShow);
+                if (screenToShow) {
+                    screenToShow.classList.remove('is-hidden');
+                    if (screenToShow.classList.contains('tutorial-content')) {
+                        populateInstructions(screenIdToShow);
+                    }
+                    setTimeout(() => animateContent(screenToShow), 50);
+                } else {
+                    document.getElementById('os-selection').classList.remove('is-hidden');
+                }
             };
 
-            document.querySelectorAll('button[data-target]').forEach(button => {
-                button.addEventListener('click', () => navigateTo(button.dataset.target));
+            document.querySelectorAll('button[data-hash]').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = button.dataset.hash;
+                });
             });
 
             document.querySelectorAll('.help-button').forEach(button => {
@@ -274,15 +297,15 @@
                     }
                 });
             });
-
-            // Initial animations
-            document.querySelectorAll('.header-item, .card-content-item').forEach(item => {
-                 item.style.animationName = item.classList.contains('header-item') ? 'fadeInHeader' : 'fadeInStep';
+            
+            document.querySelectorAll('.header-item, .content-item').forEach(item => {
+                 item.style.animationName = 'fadeInUp';
             });
-
+            
+            window.addEventListener('hashchange', handleRouteChange);
+            handleRouteChange();
         });
     </script>
 
 </body>
 </html>
-
