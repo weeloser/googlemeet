@@ -67,6 +67,17 @@
              transform: translateY(-20px);
              animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
+        .btn-transition {
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+        .help-button, .hide-vpn-button {
+            will-change: transform, opacity;
+        }
     </style>
 </head>
 <body class="text-gray-800 antialiased">
@@ -96,7 +107,7 @@
             <div id="wizard-container" class="relative">
                 <div id="os-selection" class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl text-center animated-card">
                     <h3 class="text-2xl font-bold text-gray-800 mb-6 content-item">1. Выберите вашу систему</h3>
-                    <div class="flex flex-col sm:flex-row justify-center items-center gap-8">
+                    <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-8">
                         <button data-hash="windows" class="selection-button w-full sm:w-auto bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold py-4 px-6 rounded-xl content-item" style="animation-delay: 100ms;">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor"><path d="M3,12V3H12V12H3ZM3,21V13H12V21H3ZM13,12V3H21V12H13ZM13,21V13H21V21H13Z"/></svg>
                             Windows
@@ -105,6 +116,10 @@
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor"><path d="M16,18H8V16H16M16.5,14.5H7.5V11.5H16.5M15,9H9V7H15M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1Z" /></svg>
                             Android
                         </button>
+                        <button data-hash="router" class="selection-button w-full sm:w-auto bg-gradient-to-br from-gray-500 to-gray-600 text-white font-bold py-4 px-6 rounded-xl content-item" style="animation-delay: 300ms;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor"><path d="M4,2H20A2,2 0 0,1 22,4V8A2,2 0 0,1 20,10H4A2,2 0 0,1 2,8V4A2,2 0 0,1 4,2M4,14H20A2,2 0 0,1 22,16V20A2,2 0 0,1 20,22H4A2,2 0 0,1 2,20V16A2,2 0 0,1 4,14M6,6H8V8H6V6M6,18H8V20H6V18Z"/></svg>
+                           Роутер
+                       </button>
                     </div>
                 </div>
                 
@@ -162,6 +177,7 @@
                         <li>Установите его, создайте аккаунт и войдите в приложение.</li>
                         <li>Нажмите кнопку <strong>"Быстрое подключение"</strong>.</li>
                     </ol>
+                    <button class="hide-vpn-button mt-6 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg" data-platform="windows">Скрыть</button>
                 </div>
                 
                 <div id="vpn-alternative-android" class="animated-card is-hidden bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-yellow-300 mt-6">
@@ -172,6 +188,19 @@
                         <li>Откройте его, создайте аккаунт и войдите.</li>
                         <li>Нажмите кнопку <strong>"Быстрое подключение"</strong>.</li>
                     </ol>
+                    <button class="hide-vpn-button mt-6 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg" data-platform="android">Скрыть</button>
+                </div>
+
+                <div id="router-tutorial" class="tutorial-content animated-card is-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border p-6">
+                    <h3 class="text-xl font-bold mb-4 content-item">Инструкция для Роутера (IPv6)</h3>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 mb-6 rounded-r-lg content-item" role="alert" style="animation-delay: 100ms;">
+                        <p class="font-bold">Важное замечание</p>
+                        <p>Ваш роутер может не поддерживать IPv6, или соединение через него может работать нестабильно. В таких случаях рекомендуется настроить DNS персонально для каждого <a href="https://chess71-googlemeet.netlify.app/#" class="font-bold underline hover:text-yellow-900">устройства</a>.</p>
+                    </div>
+                    <ol class="list-decimal list-inside space-y-4 text-gray-700 tutorial-steps"></ol>
+                    <div class="mt-6 flex flex-wrap gap-4">
+                        <button class="back-button bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors" data-hash="">Назад</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -188,12 +217,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             const wizardScreens = [
                 'os-selection', 'windows-step', 'yandex-browser-tutorial', 'chrome-tutorial', 
-                'opera-tutorial', 'android-tutorial'
+                'opera-tutorial', 'android-tutorial', 'router-tutorial'
             ];
             const vpnCards = {
                 'windows': document.getElementById('vpn-alternative-windows'),
                 'android': document.getElementById('vpn-alternative-android')
             };
+             const helpButtons = document.querySelectorAll('.help-button');
+            const hideVpnButtons = document.querySelectorAll('.hide-vpn-button');
 
             const instructions = {
                 'yandex-browser-tutorial': [
@@ -228,9 +259,22 @@
                     'Выберите опцию <strong>"Имя хоста поставщика персонального DNS"</strong>.',
                     'Введите в поле: <code class="bg-gray-100 text-red-600 font-mono p-2 rounded-md text-sm select-all">xbox-dns.ru</code>',
                     'Нажмите <strong>"Сохранить"</strong>. Для надежности выключите и включите Wi-Fi.'
+                ],
+                'router-tutorial': [
+                    'Зайдите в веб-интерфейс роутера. Откройте браузер и введите адрес <code class="bg-gray-100 text-red-600 font-mono p-1 rounded-md select-all">192.168.1.1</code> или <code class="bg-gray-100 text-red-600 font-mono p-1 rounded-md select-all">192.168.0.1</code>. Логин и пароль обычно указаны на наклейке на самом устройстве.',
+                    'Найдите раздел настроек <strong>IPv6</strong>. Обычно он находится во вкладке <strong>"Интернет"</strong> (Internet), <strong>"WAN"</strong> или в расширенных настройках.',
+                    'Выберите тип подключения. Самый частый и правильный вариант — <strong>"Автоматически"</strong> (Automatic) или <strong>"Native"</strong> / <strong>"Native DHCPv6"</strong>. Роутер сам получит все необходимые настройки от провайдера.',
+                    '<strong>Сохраните настройки</strong>.',
+                    '<strong>Перезагрузите роутер</strong>, если он не перезагрузился автоматически.',
+                    'Проверьте работу <strong>Google Meet</strong>! P.S. Для YouTube это помогает в 95% случаев :)'
                 ]
             };
             
+            helpButtons.forEach(btn => btn.classList.add('btn-transition'));
+            hideVpnButtons.forEach(btn => {
+                btn.classList.add('btn-transition', 'btn-hidden');
+            });
+
             const animateContent = (screen) => {
                 const items = screen.querySelectorAll('.content-item');
                 items.forEach((item, index) => {
@@ -243,7 +287,7 @@
                 const tutorialSteps = instructions[screenId];
                 if (!tutorialSteps) return;
                 const container = document.querySelector(`#${screenId} .tutorial-steps`);
-                container.innerHTML = tutorialSteps.map((step, index) => `<li class="content-item" style="animation-delay: ${index * 100}ms">${step}</li>`).join('');
+                container.innerHTML = tutorialSteps.map((step, index) => `<li class="content-item" style="animation-delay: ${index * 150}ms">${step}</li>`).join('');
             };
 
             const handleRouteChange = () => {
@@ -263,6 +307,8 @@
                     }
                 } else if (pathParts[0] === 'android') {
                     screenIdToShow = 'android-tutorial';
+                } else if (pathParts[0] === 'router') {
+                    screenIdToShow = 'router-tutorial';
                 } else {
                     screenIdToShow = 'os-selection';
                 }
@@ -286,14 +332,38 @@
                 });
             });
 
-            document.querySelectorAll('.help-button').forEach(button => {
+            helpButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const platform = button.dataset.platform;
+                    button.classList.add('btn-hidden');
+                    
                     Object.values(vpnCards).forEach(card => card.classList.add('is-hidden'));
                     const cardToShow = vpnCards[platform];
+                    
                     if (cardToShow) {
                         cardToShow.classList.remove('is-hidden');
+                        const hideButton = cardToShow.querySelector('.hide-vpn-button');
+                        if (hideButton) {
+                            hideButton.classList.remove('btn-hidden');
+                        }
                         setTimeout(() => animateContent(cardToShow), 50);
+                    }
+                });
+            });
+            
+            hideVpnButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const platform = button.dataset.platform;
+                    button.classList.add('btn-hidden');
+                    
+                    const cardToHide = vpnCards[platform];
+                    if (cardToHide) {
+                        cardToHide.classList.add('is-hidden');
+                    }
+                    
+                    const visibleHelpButton = document.querySelector('.tutorial-content:not(.is-hidden) .help-button');
+                    if (visibleHelpButton) {
+                        visibleHelpButton.classList.remove('btn-hidden');
                     }
                 });
             });
